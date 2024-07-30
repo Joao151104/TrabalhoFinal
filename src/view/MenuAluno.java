@@ -4,7 +4,7 @@ import app.Aluno;
 import cadastros.CadastroAluno;
 import javax.swing.JOptionPane;
 
-public class MenuAluno {
+public class MenuAluno extends Exception{
 
     public static Aluno dadosNovoAluno() {
         String nome = lerNome();
@@ -39,12 +39,36 @@ public class MenuAluno {
     }
 
     private static String lerNome() {
-        return JOptionPane.showInputDialog("Informe o nome do aluno: ");
+        while(true)
+            try {
+                String nome = JOptionPane.showInputDialog("Informe o nome do aluno: ");
+                if (nome != null && nome.matches("[a-zA-Z ]+") && nome.replace(" ", "").length() >= 4){ 
+                    return nome; 
+                } else { 
+                    JOptionPane.showMessageDialog(null, "Insira um nome valido");
+                }   
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao ler o nome. Tente novamente.");
+            }
+            
     }
 
     private static String lerMatricula() {
-        return JOptionPane.showInputDialog("Informe a matrícula do aluno: ");
-    }
+        while (true) { 
+            try {
+                String matricula =  JOptionPane.showInputDialog("Informe a matrícula do aluno: ");
+                if(matricula != null && matricula.matches("\\d{9}")){
+                    return matricula; 
+                } else{
+                    JOptionPane.showMessageDialog(null, "Matricula inválido. Deve conter 9 dígitos.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao ler o Matricula. Tente novamente.");
+            }}
+            
+        }
+        
+    
 
     public static void menuAluno(CadastroAluno cadAluno) {
         String txt = "Informe a opção desejada \n"
@@ -95,6 +119,5 @@ public class MenuAluno {
                     break;
             }
         } while (opcao != 0);
-        return;
     }
 }
