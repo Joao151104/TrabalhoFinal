@@ -2,7 +2,8 @@ package view;
 
 import app.Aluno;
 import cadastros.CadastroAluno;
-import java.awt.*;
+import java.awt.GridLayout;
+import java.util.List;
 import javax.swing.*;
 
 public class MenuAluno extends Exception {
@@ -15,10 +16,8 @@ public class MenuAluno extends Exception {
         JTextField cursoField = new JTextField(15);
 
         while (true) {
-            // Cria um painel para conter todos os campos de entrada
             JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
             
-            // Adiciona os componentes ao painel
             panel.add(new JLabel("Nome:"));
             panel.add(nomeField);
             panel.add(new JLabel("CPF:"));
@@ -39,7 +38,6 @@ public class MenuAluno extends Exception {
                 String matricula = matriculaField.getText();
                 String curso = cursoField.getText();
 
-                // Verifica se os dados são válidos
                 boolean nomeValido = nome.matches("[a-zA-Z ]+") && nome.replace(" ", "").length() >= 4;
                 boolean cpfValido = cpf.matches("\\d{11}");
                 boolean matriculaValida = matricula.matches("\\d{9}");
@@ -59,67 +57,26 @@ public class MenuAluno extends Exception {
         }
     }
 
-    // Outros métodos permanecem inalterados
-
-    private static String lerCurso() {
-        return JOptionPane.showInputDialog("Informe o curso do aluno: ");
-    }
-
-    private static String lerEmail() {
-        return JOptionPane.showInputDialog("Informe o email do aluno: ");
-    }
-
-    private static String lerCPF() {
-        while (true) {
-            try {
-                String cpf = JOptionPane.showInputDialog("Informe o CPF do aluno: ");
-                if (cpf != null && cpf.length() == 11) {
-                    return cpf;
-                } else {
-                    JOptionPane.showMessageDialog(null, "CPF inválido. Deve conter 11 dígitos.");
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao ler o CPF. Tente novamente.");
+    private static void listarTodosAlunos(CadastroAluno cadAluno) {
+        List<Aluno> alunos = cadAluno.listarTodosAlunos();
+        if (alunos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nenhum aluno cadastrado.");
+        } else {
+            StringBuilder listaAlunos = new StringBuilder("Alunos cadastrados:\n\n");
+            for (Aluno aluno : alunos) {
+                listaAlunos.append(aluno.toString()).append("\n");
             }
+            JOptionPane.showMessageDialog(null, listaAlunos.toString(), "Lista de Alunos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    private static String lerNome() {
-        while(true)
-            try {
-                String nome = JOptionPane.showInputDialog("Informe o nome do aluno: ");
-                if (nome != null && nome.matches("[a-zA-Z ]+") && nome.replace(" ", "").length() >= 4){ 
-                    return nome; 
-                } else { 
-                    JOptionPane.showMessageDialog(null, "Insira um nome válido.");
-                }   
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao ler o nome. Tente novamente.");
-            }
-            
-    }
-
-    private static String lerMatricula() {
-        while (true) { 
-            try {
-                String matricula =  JOptionPane.showInputDialog("Informe a matrícula do aluno: ");
-                if(matricula != null && matricula.matches("\\d{9}")){
-                    return matricula; 
-                } else{
-                    JOptionPane.showMessageDialog(null, "Matrícula inválida. Deve conter 9 dígitos.");
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao ler a matrícula. Tente novamente.");
-            }
-        }
-    }
-        
     public static void menuAluno(CadastroAluno cadAluno) {
         String txt = "Informe a opção desejada \n"
                 + "1 - Cadastrar aluno\n"
                 + "2 - Pesquisar aluno\n"
                 + "3 - Atualizar aluno\n"
                 + "4 - Remover aluno\n"
+                + "5 - Ver todos os alunos do sistema\n"
                 + "0 - Voltar para menu anterior";
 
         int opcao = -1;
@@ -162,10 +119,29 @@ public class MenuAluno extends Exception {
                         System.gc();
                     }
                     break;
+                
+                case 5:
+                    listarTodosAlunos(cadAluno);
+                    break;
 
                 default:
                     break;
             }
         } while (opcao != 0);
+    }
+
+    private static String lerMatricula() {
+        while (true) {
+            try {
+                String matricula = JOptionPane.showInputDialog("Informe a matrícula do aluno: ");
+                if (matricula != null && matricula.matches("\\d{9}")) {
+                    return matricula;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Matrícula inválida. Deve conter 9 dígitos.");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao ler a matrícula. Tente novamente.");
+            }
+        }
     }
 }
