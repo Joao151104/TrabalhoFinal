@@ -1,6 +1,5 @@
-import javax.swing.JOptionPane;
-
 import cadastros.CadastroAluno;
+import javax.swing.JOptionPane;
 import view.MenuAluno;
 import view.MenuPrincipal;
 
@@ -16,27 +15,18 @@ public class Principal {
 		do {
 			opcao = MenuPrincipal.menuOpcoes(); 
 			switch (opcao) {
-				case 1: 
-					MenuAluno.menuAluno(cadAluno); 
-				break;
-				case 2: 
-					JOptionPane.showMessageDialog(null, "Cadastro de professores a ser implementado");
-				break;
-				case 3: 
-					JOptionPane.showMessageDialog(null, "Cadastro de disciplinas a ser implementado");
-				break;
-				case 4: 
-					JOptionPane.showMessageDialog(null, "Cadastro de turmas a ser implementado");
-				break;
-				case 0: 
-				break;
-				default: 
-					JOptionPane.showMessageDialog(null, "Opcao invalida");
-					opcao = -1;
-				break;
+				case 1 -> MenuAluno.menuAluno(cadAluno);
+				case 2 -> JOptionPane.showMessageDialog(null, "Cadastro de professores a ser implementado");
+				case 3 -> JOptionPane.showMessageDialog(null, "Cadastro de disciplinas a ser implementado");
+				case 4 -> JOptionPane.showMessageDialog(null, "Cadastro de turmas a ser implementado");
+				case 0 -> {
+                        }
+				default -> {
+                                    JOptionPane.showMessageDialog(null, "Opcao invalida");
+                                    opcao = -1;
+                        }
 			}
 		} while (opcao != 0);
-		return;
 	}
 
 
