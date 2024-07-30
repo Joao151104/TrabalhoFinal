@@ -18,10 +18,8 @@ public class Aluno extends PessoaFisica {
         return curso;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        System.out.println("Destruindo objeto: " + this);
-    }
+
+   
 
     @Override
     public String toString() {

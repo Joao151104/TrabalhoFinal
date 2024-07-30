@@ -41,14 +41,16 @@ public class MenuAluno extends Exception {
                 boolean nomeValido = nome.matches("[a-zA-Z ]+") && nome.replace(" ", "").length() >= 4;
                 boolean cpfValido = cpf.matches("\\d{11}");
                 boolean matriculaValida = matricula.matches("\\d{9}");
+                boolean cursoValido = curso.matches("[a-zA-Z ]+") && curso.replace(" ", "").length() >= 4;
                 
-                if (nomeValido && cpfValido && matriculaValida) {
+                if (nomeValido && cpfValido && matriculaValida && cursoValido) {
                     return new Aluno(nome, cpf, email, matricula, curso);
                 } else {
                     StringBuilder mensagemErro = new StringBuilder("Dados inválidos:\n");
                     if (!nomeValido) mensagemErro.append(" - Nome deve conter apenas letras e ter no mínimo 4 letras.\n");
                     if (!cpfValido) mensagemErro.append(" - CPF deve conter 11 dígitos.\n");
                     if (!matriculaValida) mensagemErro.append(" - Matrícula deve conter 9 dígitos.\n");
+                    if(!cursoValido) mensagemErro.append(" - Curso Invalido\n"); 
                     JOptionPane.showMessageDialog(null, mensagemErro.toString());
                 }
             } else {
