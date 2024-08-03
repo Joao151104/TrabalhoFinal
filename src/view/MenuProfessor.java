@@ -50,7 +50,7 @@ public class MenuProfessor {
                     if (!nomeValido) mensagemErro.append(" - Nome deve conter apenas letras e ter no mínimo 4 letras.\n");
                     if (!cpfValido) mensagemErro.append(" - CPF deve conter 11 dígitos.\n");
                     if (!matriculaValida) mensagemErro.append(" - Matrícula FUB deve conter 9 dígitos.\n");
-                    if (!areaFormacaoValida) mensagemErro.append(" - Área de Formação deve conter apenas letras e ter no mínimo 4 letras.\n");
+                    if (!areaFormacaoValida) mensagemErro.append(" - Área de Formação deve conter apenas letras sem acento e ter no mínimo 4 letras.\n");
                     JOptionPane.showMessageDialog(null, mensagemErro.toString());
                 }
             } else {
