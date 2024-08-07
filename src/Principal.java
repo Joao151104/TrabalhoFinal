@@ -29,6 +29,7 @@ public class Principal {
 					MenuProfessor.menuProfessor(cadProfessor);
 				break;
 				case 3: 
+				CadastroDisciplina cadDisciplina = new CadastroDisciplina();
 					MenuDisciplina.menuDisciplina(cadDisciplina);
 				break;
 				case 4: 

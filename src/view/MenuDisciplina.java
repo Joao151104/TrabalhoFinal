@@ -30,7 +30,7 @@ public class MenuDisciplina {
                 String codigoDisciplina = codigoDisciplinaField.getText();
 
                 boolean nomeDisciplinaValido = nomeDisciplina.replace(" ", "").length() >= 4;
-                boolean codigoDisciplinaValido = codigoDisciplina.matches("\\d{7}");
+                boolean codigoDisciplinaValido = codigoDisciplina.matches("[a-zA-Z0-9]{1,7}");
 
                 if (nomeDisciplinaValido && codigoDisciplinaValido) {
                     return new Disciplina(nomeDisciplina, codigoDisciplina);
@@ -152,7 +152,7 @@ private static String lerNomeDisciplina(){
         while (true) { 
             try{
                 String codigoDisciplina = JOptionPane.showInputDialog("Informe o codigo da Disciplina: ");
-                if(codigoDisciplina != null && codigoDisciplina.matches("\\d{7}")){
+                if(codigoDisciplina != null && codigoDisciplina.matches("[a-zA-Z0-9]{1,7}")){
                     return codigoDisciplina;
                 } else{
                     JOptionPane.showMessageDialog(null, "Disciplina inválida. Codigo da disciplina deve conter 7 digitos.");

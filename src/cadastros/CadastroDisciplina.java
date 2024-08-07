@@ -3,6 +3,7 @@ package cadastros;
 import app.Disciplina;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 
 public class CadastroDisciplina {
@@ -24,7 +25,9 @@ public class CadastroDisciplina {
                 return d;
             }
         }
-        return null;
+         JOptionPane.showMessageDialog(null, "Disciplina não encontrada: " + nomeDisciplina + " (Código: " + codigoDisciplina + ")");
+         return null;
+       
     }
 
     public boolean removerDisciplina(Disciplina d){
