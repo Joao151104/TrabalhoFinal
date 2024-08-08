@@ -12,6 +12,18 @@ public class CadastroAluno {
     }
 
     public int cadastrarAluno(Aluno a) {
+        // Verifica se a matrícula ou CPF já existe na lista
+        for (Aluno aluno : alunos) {
+            if (aluno.getMatricula().equalsIgnoreCase(a.getMatricula())) {
+                // Retorna -1 se a matrícula já existir
+                return -1;
+            }
+            if (aluno.getCpf().equalsIgnoreCase(a.getCpf())) {
+                // Retorna -2 se o CPF já existir
+                return -2;
+            }
+        }
+        // Se a matrícula e CPF não existirem, adiciona o aluno à lista
         boolean cadastrou = alunos.add(a);
         return cadastrou ? alunos.size() : -1;
     }
