@@ -110,8 +110,6 @@ public class MenuProfessor {
                         Professor p = cadProfessor.pesquisarProfessor(matriculaFUB);
                         if (p != null) {
                             JOptionPane.showMessageDialog(null, p.toString());
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Professor não encontrado.");
                         }
                     }
                     break;

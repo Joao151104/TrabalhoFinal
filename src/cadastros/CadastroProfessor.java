@@ -4,6 +4,8 @@ import app.Professor;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class CadastroProfessor {
     private List<Professor> professores;
 
@@ -22,6 +24,7 @@ public class CadastroProfessor {
                 return p;
             }
         }
+        JOptionPane.showMessageDialog(null, "Professor não cadastrado.");
         return null;
     }
 
