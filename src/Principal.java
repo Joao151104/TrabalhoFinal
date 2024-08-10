@@ -30,7 +30,7 @@ public class Principal {
 					MenuDisciplina.menuDisciplina(cadDisciplina);
 				break;
 				case 4: 
-					MenuTurmas.menuTurma(cadTurma, cadAluno);
+					MenuTurmas.menuTurma(cadTurma, cadAluno, cadProfessor);
 				break;
 				case 0: 
 				break;
