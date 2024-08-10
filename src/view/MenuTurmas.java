@@ -37,8 +37,8 @@ public class MenuTurmas {
                 String codDisciplina = codigoDiscField.getText();
                 String recebeQtdMaxAlunos = qtdMaxAlunosField.getText();
 
-                boolean codTurmaValido = codTurma.replace(" ", "").length() >= 2;
-                boolean salaValida = sala.length() >=2;
+                boolean codTurmaValido = codTurma.matches("^[Tt][A-Za-z0-9]{2}$");
+                boolean salaValida = sala.length() >= 2;
                 boolean matriculaFUBValida = matriculaFUB.replace(".", "").replace("-", "").replace(" ", "").length() <= 10;
                 boolean codDisciplinaValido = codDisciplina.replace(" ", "").replace(".", "").replace("-", "").length() == 7;
                 boolean qtdMaxAlunosValida = false;
@@ -55,7 +55,7 @@ public class MenuTurmas {
                     return new Turma(codTurma, sala, matriculaFUB, codDisciplina, qtdMaxAlunos);
                 } else {
                     StringBuilder msgDeErro = new StringBuilder("Dados inválidos:\n");
-                    if (!codTurmaValido) msgDeErro.append(" - O código da turma deve conter exatamente 3 caracteres: TXX.\n");
+                    if (!codTurmaValido) msgDeErro.append(" - O código da turma deve estar no formato TXX, onde X é um caractere alfanumérico.\n");
                     if (!salaValida) msgDeErro.append(" - A sala deve conter exatamente 3 caracteres: SXX ou IXX.\n");
                     if (!codDisciplinaValido) msgDeErro.append(" - O código da disciplina deve conter exatamente 3 letras e 4 dígitos. Exemplo: FGA0158.\n");
                     if (!qtdMaxAlunosValida) msgDeErro.append(" - A quantidade máxima de alunos por turma é 120. Neste campo só vão dígitos.\n");
@@ -77,14 +77,14 @@ public class MenuTurmas {
 
     private static String lerCodigoTurma() {
         while (true) {
-            String codTurma = JOptionPane.showInputDialog("Insira o código da turma: ");
+            String codTurma = JOptionPane.showInputDialog("Insira o código da turma (Formato: TXX):");
             if (codTurma == null) {
                 return null; // Trata o caso do botão "Cancelar"
             }
-            if (codTurma.length() >= 2) {
+            if (codTurma.matches("^[Tt][A-Za-z0-9]{2}$")) { // Valida o formato do código da turma
                 return codTurma;
             } else {
-                JOptionPane.showMessageDialog(null, "Inválido. O código da turma deve conter exatamente 3 caracteres: TX.");
+                JOptionPane.showMessageDialog(null, "Inválido. O código da turma deve estar no formato TXX, onde X é um caractere alfanumérico.");
             }
         }
     }
@@ -134,7 +134,7 @@ public class MenuTurmas {
                                     JOptionPane.showMessageDialog(null, "Erro: Já existe uma turma cadastrada com esse código. Por favor, insira um código de turma diferente.");
                                     break;
                                 case -4:
-                                
+                                    JOptionPane.showMessageDialog(null, "Erro: A disciplina associada à turma não foi encontrada.");
                                     break;
                                 case -5:
                                     JOptionPane.showMessageDialog(null, "Erro: Não há professores cadastrados no sistema. Por favor, cadastre pelo menos um professor antes de adicionar uma turma.");
