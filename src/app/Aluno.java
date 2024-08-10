@@ -23,10 +23,10 @@ public class Aluno extends PessoaFisica {
 
     @Override
     public String toString() {
-        return "NOME: " + getNome() + '\n' +
+        return "Nome: " + getNome() + '\n' +
                "CPF: " + getCpf() + '\n' +
-               "EMAIL: " + getEmail() + '\n' +
-               "MATRICULA: " + matricula + '\n' +
-               "CURSO: " + curso + '\n';
+               "Email: " + getEmail() + '\n' +
+               "Matrícula: " + getMatricula() + '\n' +
+               "Curso: " + getCurso() + '\n';
     }
 }

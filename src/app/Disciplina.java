@@ -20,12 +20,7 @@ public class Disciplina {
 
     @Override
     public String toString() {
-        return "DISCIPLINA: " + nomeDisciplina + '\n' +
-         "CODIGO DA DISCIPLINA: " + codigoDisciplina + '\n';
+        return "Disciplina: " + getNomeDisciplina() + '\n' +
+        "Código da disciplina: " + getCodigoDisciplina() + '\n';
     }
-
-    
-
-    
-
 }

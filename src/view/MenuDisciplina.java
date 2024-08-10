@@ -12,41 +12,38 @@ public class MenuDisciplina {
 
     public static Disciplina dadosNovaDisciplina(){
 
-        JTextField nomeDisciplinaField = new JTextField(20);
-        JTextField codigoDisciplinaField = new JTextField(9);
+        JTextField nomeDisciplinaField = new JTextField(30);
+        JTextField codigoDisciplinaField = new JTextField(7);
 
         while (true) {
             JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
             
             panel.add(new JLabel("Nome da Disciplina:"));
             panel.add(nomeDisciplinaField);
-            panel.add(new JLabel("Codigo da Disciplina:"));
+            panel.add(new JLabel("Código da Disciplina:"));
             panel.add(codigoDisciplinaField);
 
-            int result = JOptionPane.showConfirmDialog(null, panel, "Dados da Nova Disciplina", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(null, panel, "Dados da nova disciplina", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
                 String nomeDisciplina = nomeDisciplinaField.getText();
                 String codigoDisciplina = codigoDisciplinaField.getText();
 
-                boolean nomeDisciplinaValido = nomeDisciplina.replace(" ", "").length() >= 4;
+                boolean nomeDisciplinaValido = nomeDisciplina.replace(" ", "").length() >= 1;
                 boolean codigoDisciplinaValido = codigoDisciplina.matches("[a-zA-Z0-9]{1,7}");
 
                 if (nomeDisciplinaValido && codigoDisciplinaValido) {
                     return new Disciplina(nomeDisciplina, codigoDisciplina);
                 } else {
                     StringBuilder mensagemErro = new StringBuilder("Dados inválidos:\n");
-                    if (!nomeDisciplinaValido) mensagemErro.append(" - O campo nome da disciplina não podem estar em branco.\n");
-                    if (!codigoDisciplinaValido) mensagemErro.append(" - O campo código da disciplina não podem estar em branco e deve conter 7 dígitos.\n");
+                    if (!nomeDisciplinaValido) mensagemErro.append(" - O campo 'nome da disciplina' não pode estar em branco.\n");
+                    if (!codigoDisciplinaValido) mensagemErro.append(" - O campo 'código da disciplina' não pode estar em branco e deve conter 3 letras e 7 dígitos.\n");
                     JOptionPane.showMessageDialog(null, mensagemErro.toString());
                 }
-
             } else {
                 return null;
             }
-
         }
-
     }
     
 
@@ -54,14 +51,13 @@ public class MenuDisciplina {
     private static void listarTodasDisciplinas(CadastroDisciplina cadDisciplina) {
         List<Disciplina> disciplinas = cadDisciplina.listarTodasDisciplinas();
         if (disciplinas.isEmpty()) {
-          JOptionPane.showMessageDialog(null, "Nenhuma disciplina cadastrada.");
-         } else {
-           StringBuilder listaDisciplinas = new StringBuilder("Disciplinas cadastradas:\n\n");
-          for (Disciplina disciplina : disciplinas) {
-         listaDisciplinas.append(disciplina.toString()).append("\n");
-         }
-
-        JOptionPane.showMessageDialog(null, listaDisciplinas.toString(), "Lista de Disciplinas", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nenhuma disciplina cadastrada.");
+        } else {
+            StringBuilder listaDisciplinas = new StringBuilder("Disciplinas cadastradas:\n\n");
+            for (Disciplina disciplina : disciplinas) {
+                listaDisciplinas.append(disciplina.toString()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, listaDisciplinas.toString(), "Lista de disciplinas", JOptionPane.INFORMATION_MESSAGE);
     }
 }
 
@@ -84,46 +80,56 @@ do{
         case 1:
             Disciplina novaDisciplina = dadosNovaDisciplina();
             if(novaDisciplina != null){
-                cadDisciplina.cadastrarDisciplina(novaDisciplina);
+               int resultado = cadDisciplina.cadastrarDisciplina(novaDisciplina);
+               switch(resultado) {
+                    case -1:
+                        JOptionPane.showMessageDialog(null, "Já existe uma disciplina cadastrada com esse código.");
+                        break;
+                    case -2:
+                        JOptionPane.showMessageDialog(null, "Ocorreu um erro ao cadastrar a disciplina. Código -2.");
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Disciplina cadastrada.");
+                        break;
+               }
             }
             break;
         
         case 2:
-            String nomeDisciplina = lerNomeDisciplina();
             String codigoDisciplina = lerCodigoDisciplina();
-            Disciplina d = cadDisciplina.pesquisarDisciplina(nomeDisciplina, codigoDisciplina);
+            Disciplina d = cadDisciplina.pesquisarDisciplina(codigoDisciplina);
             if(d != null){
                 JOptionPane.showMessageDialog(null, d.toString());
-            }  
-            break; 
+            }
+            break;
 
         case 3:
-            nomeDisciplina = lerNomeDisciplina();
             codigoDisciplina = lerCodigoDisciplina();
             Disciplina atualizarDisciplina = dadosNovaDisciplina();
             if (atualizarDisciplina != null){
-                boolean atualizada = cadDisciplina.atualizarDisciplina(nomeDisciplina, codigoDisciplina, atualizarDisciplina);
-             if (atualizada){
-                JOptionPane.showMessageDialog(null, "Cadastro atualizado.");
+                boolean atualizada = cadDisciplina.atualizarDisciplina(codigoDisciplina, atualizarDisciplina);
+                if (atualizada){
+                    JOptionPane.showMessageDialog(null, "Cadastro atualizado.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ocorreu um erro ao atualizar a disciplina.");
+                }
             }
-        }
             break;
         
         case 4:
-            nomeDisciplina = lerNomeDisciplina();
             codigoDisciplina = lerCodigoDisciplina();
-            Disciplina remover = cadDisciplina.pesquisarDisciplina(nomeDisciplina, codigoDisciplina);
+            Disciplina remover = cadDisciplina.pesquisarDisciplina(codigoDisciplina);
             boolean removida = cadDisciplina.removerDisciplina(remover);
             if(removida){
                 JOptionPane.showMessageDialog(null, "Disciplina removida do cadastro");
-                System.gc();
+            } else {
+                JOptionPane.showMessageDialog(null, "Ocorreu um erro ao remover a disciplina.");
             }
             break;
 
         case 5:
             listarTodasDisciplinas(cadDisciplina);
             break;
-
         default:
             break;
      }
@@ -162,6 +168,4 @@ private static String lerNomeDisciplina(){
                  }
             }
         }
-
 }
-

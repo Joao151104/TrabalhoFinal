@@ -1,12 +1,7 @@
 package cadastros;
 
-import app.Turma;
-import app.Disciplina;
-import app.Professor;
-import app.Aluno;
-import cadastros.CadastroProfessor;
-import cadastros.CadastroDisciplina;
-import cadastros.CadastroAluno;
+import app.*;
+import cadastros.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,44 +12,43 @@ public class CadastroTurma{
     private CadastroDisciplina cadastroDisciplina;
 
     public CadastroTurma(CadastroProfessor cadProf, CadastroDisciplina cadDisc) {
-        turmas = new ArrayList<>(); //cria uma lista referenciado por turma
+        turmas = new ArrayList<>(); //cria uma lista (para as turmas) referenciado por "turmas"
         cadastroProfessor = cadProf;
         cadastroDisciplina = cadDisc;
     }
 
-    //para criar uma turma, preciso, ao mesmo tempo, de um nome e codigo, pelo menos um professor e apenas uma disciplina
-    public boolean verificaRequisitos(String codigoTurma, String codDisciplina) {
-       Disciplina disciplina = cadastroDisciplina.pesquisarDisciplina(null, codDisciplina) //verifica se a turma existe procurando direto pelo codigo da mesma
-        if(disciplina == null) {
-            return false; // (implementar msg erro disc nao cadastrada)
+    //para criar uma turma, eu preciso, ao mesmo tempo de UM professor e UM codigo de disciplina
+    public int cadastrarTurma(Turma t) {
+
+        for(Turma teste : turmas) { //verifica se ja existe uma turma com o codigo inserido
+            if(teste.getCodigoTurma().equalsIgnoreCase(t.getCodigoTurma())){
+                return -3; //msg de erro "Ja existe turma com este codigo"
+            }
+        }
+
+        Disciplina disciplinaVerificadora = cadastroDisciplina.pesquisarDisciplina(t.getDisciplina()); //verifica se disciplina existe
+        if(disciplinaVerificadora == null) {
+            return -4; //msg de erro "A disciplina nao existe"
         }
 
         if(cadastroProfessor.listarTodosProfessores().isEmpty()) {
-            return = false; //(implementar msg erro nao ha professor)
+            return -5; //msg de erro "Nao ha professores cadastrados no sistema"
         }
 
-        return true; //se passar nos dois testes, pode criar a turma
-    }
-
-    public int cadastrarTurma(String codigoTurma, String sala, int qtdMaxAlunos, int qtdMaxProfessores, String codigoDisc) {
-        for(Turma t : turmas) { //verifica se ja existe uma turma com o codigo inserido
-            if(t.getCodigoTurma().equalsIgnoreCase(codigoTurma)){
-                return -3; //sinaliza que ja existe uma turma com esse codigo
-            }
+        Professor professorVerificador = cadastroProfessor.pesquisarProfessor(t.getProfessorAssociado());
+        if(professorVerificador == null) {
+            return -6; //msg de erro "Professor nao cadastrado"
         }
-        if(verificaRequisitos(codigoTurma, codigoDisc)) {
-            Disciplina disciplina = cadastroDisciplina.pesquisarDisciplina(null, codigoDisc);
-            if(disciplina != null) {
-                Turma atual = new Turma(codigoTurma, sala, qtdMaxAlunos, qtdMaxProfessores, disciplina);
-                turmas.add(turma);
-                return 97; //sucesso na adicao da turma                
-            }
+
+        boolean ok = turmas.add(t);
+        if(ok) {
+            return turmas.size();
         } else {
-            return -4; //sinaliza que a disciplina nao existe
+            return -7;
         }
     }
 
-    public Turmas procurarTurma(String codigoTurma) {
+    public Turma procurarTurma(String codigoTurma) {
         for(Turma t : turmas) { //roda toda a lista atras da turma
             if(t.getCodigoTurma().equalsIgnoreCase(codigoTurma)) {
                 return t; //retorna a turma que bater
@@ -63,16 +57,11 @@ public class CadastroTurma{
         return null; //se nao bater nenhuma, retorna vazio (implementar o aviso)
     }
 
-    public boolean excluirTurma(String codigoTurma) {
-        for(Turma t : turmas) { //roda a lista de turmas todinha
-            if(t.getCodigoTurma().equalsIgnoreCase(codigoTurma)) { //procura a que o codigo e igual
-                turmas.remove(t); //apaga a turma
-            }
-        }
+    public boolean excluirTurma(Turma t) {
+        return turmas.remove(t);
     }
 
     public List<Turma> getTurmas() {
-        return turmas; //lista todas as turmas;
+        return new ArrayList<>(turmas); //retorna todas as turmas;
     }
-
 }

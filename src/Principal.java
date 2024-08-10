@@ -1,21 +1,19 @@
-import cadastros.CadastroAluno;
-import cadastros.CadastroDisciplina;
-import cadastros.CadastroProfessor;
+import cadastros.*;
+import view.*;
 import javax.swing.JOptionPane;
-import view.MenuAluno;
-import view.MenuDisciplina;
-import view.MenuPrincipal;
-import view.MenuProfessor;
 
 public class Principal {
 
 	static CadastroAluno cadAluno;
 	static CadastroProfessor cadProfessor;
 	static CadastroDisciplina cadDisciplina;
+	static CadastroTurma cadTurma;
 	
 	public static void main(String[] args) {
 		cadAluno = new CadastroAluno();
 		cadProfessor = new CadastroProfessor();
+		cadDisciplina = new CadastroDisciplina();
+		cadTurma = new CadastroTurma(cadProfessor, cadDisciplina);
 		
 		int opcao = 0; 
 		
@@ -29,11 +27,10 @@ public class Principal {
 					MenuProfessor.menuProfessor(cadProfessor);
 				break;
 				case 3: 
-				CadastroDisciplina cadDisciplina = new CadastroDisciplina();
 					MenuDisciplina.menuDisciplina(cadDisciplina);
 				break;
 				case 4: 
-					JOptionPane.showMessageDialog(null, "Cadastro de turmas a ser implementado");
+					MenuTurmas.menuTurma(cadTurma);
 				break;
 				case 0: 
 				break;
@@ -45,6 +42,4 @@ public class Principal {
 		} while (opcao != 0);
 		return;
 	}
-
-
 }

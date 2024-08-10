@@ -1,8 +1,10 @@
 package cadastros;
 
 import app.Aluno;
+
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class CadastroAluno {
     private List<Aluno> alunos;
@@ -34,6 +36,7 @@ public class CadastroAluno {
                 return a;
             }
         }
+        JOptionPane.showMessageDialog(null, "Aluno não cadastrado.");
         return null;
     }
 

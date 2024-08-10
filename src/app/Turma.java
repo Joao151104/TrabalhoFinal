@@ -9,33 +9,19 @@ import app.Disciplina;
 
 public class Turma {
     private String codigoTurma, sala;
-    private List <Professor> professorAssociado;
-    private List <Aluno> alunoAssociado;
+    private String professor;
+    private String materia;
     private int qtdMaxAlunos;
-    private int qtdMaxProfessores;
-    private Disciplina materia;
+    private List <Aluno> alunoAssociado;
+    private Aluno aluno;
 
-    public Turma(String cT, String s, Disciplina d, int qtdMA, int qtdMP) {
+    public Turma(String cT, String s, String matriculaFUB, String codDisc, int qtdMA) {
         codigoTurma = cT;
         sala = s;
-        materia = d;
+        professor = matriculaFUB;
+        materia = codDisc;
         qtdMaxAlunos = qtdMA;
-        qtdMaxProfessores = qtdMP;
-        professorAssociado = new ArrayList<>();
         alunoAssociado = new ArrayList<>();
-    }
-
-    public int adicionaProfessor() {
-        if(professorAssociado.size() < qtdMaxProfessores) {
-            professorAssociado.add(Professor p)
-            return 99; //implementar msg dizendo "professor adicionado"
-        } else {
-            return -1; //msg de erro dizendo "nao foi possivel add professor"
-        }
-    }
-
-    public List<Professor> getProfessorAssociado() {
-        return professorAssociado;
     }
 
     public String getCodigoTurma() {
@@ -46,39 +32,42 @@ public class Turma {
         return sala;
     }
 
-    public int adicionaAluno() {
-        if(alunoAssociado.size() < qtdMaxAlunos) {
-            alunoAssociado.add(Aluno a)
-            return 98; //implementar msg dizendo "aluno add"
-        } else {
-            return -2; //implementar msg dizendo "nao foi possivel add aluno"
-        }
+    public String getProfessorAssociado() {
+        return professor;
     }
 
-    public List<Aluno> getAlunoAssociado() {
-        return alunoAssociado;
+    public String getDisciplina() {
+        return materia;
     }
 
     public int getQtdMaxAlunos() {
         return qtdMaxAlunos;
     }
 
-    public int getQtdMaxProfessores() {
-        return qtdMaxProfessores;
+    public int adicionaAluno() { //implementar sistema para evitar duplicatas
+        if(alunoAssociado.size() < qtdMaxAlunos) {
+            alunoAssociado.add(aluno);
+            return 99; //msg sucesso "Aluno adicionado"
+        } else {
+            return -1; //msg de erro "Nao foi possivel adicionar aluno"
+        }
     }
 
-    public Disciplina getDisciplina() {
-        return materia;
+    /* public int removeAluno() {
+        ...
+    } */
+
+    public List<Aluno> getAlunoAssociado() {
+        return alunoAssociado;
     }
     
     @Override //por causa dos "toString" de professor, aluno e disciplina
     public String toString() {
-        return  "TURMA: " + getCodigoTurma() + '\n' +
-                "SALA: " + getSala() + '\n' +
-                "DISCIPLINA: " + getDisciplina() + '\n' +
-                "PROFESSOR(ES): " + getProfessorAssociado().toString() + '\n' +
-                "ALUNO(S): " + getAlunoAssociado().toString() + '\n' +
-                "QUANTIDADE MAXIMA DE PROFESSORES: " + getQtdMaxProfessores() + '\n' +
-                "QUANTIDADE MAXIMA DE ALUNOS: " + getQtdMaxAlunos() + '\n';
+        return  "Código da turma: " + getCodigoTurma() + '\n' +
+                "Sala: " + getSala() + '\n' +
+                "Código da disciplina: " + getDisciplina() + '\n' +
+                "Matrícula FUB do professor: " + getProfessorAssociado() + '\n' +
+                "Quantidade máxima de alunos: " + getQtdMaxAlunos() + '\n' +
+                "Alunos: " + getAlunoAssociado().toString() + '\n';
     }
 }
