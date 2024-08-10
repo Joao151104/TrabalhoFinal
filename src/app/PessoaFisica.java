@@ -26,9 +26,9 @@ public class PessoaFisica {
 	
 	public String toString() {
 		String resposta = "";
-		resposta += "NOME: " + nome + '\n';
+		resposta += "Nome: " + nome + '\n';
 		resposta += "CPF: " + cpf + '\n'; 
-		resposta += "EMAIL: " + email + '\n';
+		resposta += "Email: " + email + '\n';
 		return resposta;
 	}
 }
