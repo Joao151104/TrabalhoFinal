@@ -50,11 +50,11 @@ public class MenuProfessor {
                     if (!nomeValido) mensagemErro.append(" - Nome deve conter apenas letras e ter no mínimo 4 letras.\n");
                     if (!cpfValido) mensagemErro.append(" - CPF deve conter 11 dígitos.\n");
                     if (!matriculaValida) mensagemErro.append(" - Matrícula FUB deve conter 9 dígitos.\n");
-                    if (!areaFormacaoValida) mensagemErro.append(" - Área de Formação deve conter apenas letras sem acento e ter no mínimo 4 letras.\n");
+                    if (!areaFormacaoValida) mensagemErro.append(" - Área de Formação deve conter apenas letras e ter no mínimo 4 letras.\n");
                     JOptionPane.showMessageDialog(null, mensagemErro.toString());
                 }
             } else {
-                return null;
+                return null; // Usuário cancelou ou fechou a janela
             }
         }
     }
@@ -84,42 +84,67 @@ public class MenuProfessor {
         int opcao = -1;
         do {
             String strOpcao = JOptionPane.showInputDialog(txt);
-            opcao = Integer.parseInt(strOpcao);
+            if (strOpcao == null) {
+                return; // Usuário cancelou ou fechou a janela
+            }
+
+            try {
+                opcao = Integer.parseInt(strOpcao);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, escolha um número.");
+                continue;
+            }
 
             switch (opcao) {
                 case 1:
                     Professor novoProfessor = dadosNovoProfessor();
                     if (novoProfessor != null) {
                         cadProfessor.cadastrarProfessor(novoProfessor);
+                        JOptionPane.showMessageDialog(null, "Professor cadastrado com sucesso.");
                     }
                     break;
 
                 case 2:
                     String matriculaFUB = lerMatriculaFUB();
-                    Professor p = cadProfessor.pesquisarProfessor(matriculaFUB);
-                    if (p != null) {
-                        JOptionPane.showMessageDialog(null, p.toString());
+                    if (matriculaFUB != null) {
+                        Professor p = cadProfessor.pesquisarProfessor(matriculaFUB);
+                        if (p != null) {
+                            JOptionPane.showMessageDialog(null, p.toString());
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Professor não encontrado.");
+                        }
                     }
                     break;
 
                 case 3:
                     matriculaFUB = lerMatriculaFUB();
-                    Professor novoCadastro = dadosNovoProfessor();
-                    if (novoCadastro != null) {
-                        boolean atualizado = cadProfessor.atualizarProfessor(matriculaFUB, novoCadastro);
-                        if (atualizado) {
-                            JOptionPane.showMessageDialog(null, "Cadastro atualizado.");
+                    if (matriculaFUB != null) {
+                        Professor novoCadastro = dadosNovoProfessor();
+                        if (novoCadastro != null) {
+                            boolean atualizado = cadProfessor.atualizarProfessor(matriculaFUB, novoCadastro);
+                            if (atualizado) {
+                                JOptionPane.showMessageDialog(null, "Cadastro atualizado com sucesso.");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Erro ao atualizar o cadastro.");
+                            }
                         }
                     }
                     break;
 
                 case 4:
                     matriculaFUB = lerMatriculaFUB();
-                    Professor remover = cadProfessor.pesquisarProfessor(matriculaFUB);
-                    boolean removido = cadProfessor.removerProfessor(remover);
-                    if (removido) {
-                        JOptionPane.showMessageDialog(null, "Professor removido do cadastro");
-                        System.gc();
+                    if (matriculaFUB != null) {
+                        Professor remover = cadProfessor.pesquisarProfessor(matriculaFUB);
+                        if (remover != null) {
+                            boolean removido = cadProfessor.removerProfessor(remover);
+                            if (removido) {
+                                JOptionPane.showMessageDialog(null, "Professor removido com sucesso.");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Erro ao remover o professor.");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Professor não encontrado.");
+                        }
                     }
                     break;
 
@@ -128,6 +153,7 @@ public class MenuProfessor {
                     break;
 
                 default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
                     break;
             }
         } while (opcao != 0);
@@ -136,8 +162,11 @@ public class MenuProfessor {
     private static String lerMatriculaFUB() {
         while (true) {
             try {
-                String matriculaFUB = JOptionPane.showInputDialog("Informe a matrícula FUB do professor: ");
-                if (matriculaFUB != null && matriculaFUB.matches("\\d{9}")) {
+                String matriculaFUB = JOptionPane.showInputDialog("Informe a matrícula FUB do professor:");
+                if (matriculaFUB == null) {
+                    return null; // Usuário cancelou ou fechou a janela
+                }
+                if (matriculaFUB.matches("\\d{9}")) {
                     return matriculaFUB;
                 } else {
                     JOptionPane.showMessageDialog(null, "Matrícula FUB inválida. Deve conter 9 dígitos.");

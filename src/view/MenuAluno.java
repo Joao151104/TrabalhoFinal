@@ -84,6 +84,12 @@ public class MenuAluno {
         int opcao = -1;
         do {
             String strOpcao = JOptionPane.showInputDialog(txt);
+            
+            // Verifica se o usuário clicou em "Cancelar" ou fechou a janela
+            if (strOpcao == null) {
+                return; // Sai do método sem exibir "Opção inválida"
+            }
+            
             try {
                 opcao = Integer.parseInt(strOpcao);
             } catch (NumberFormatException e) {

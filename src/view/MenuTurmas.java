@@ -78,7 +78,10 @@ public class MenuTurmas {
     private static String lerCodigoTurma() {
         while (true) {
             String codTurma = JOptionPane.showInputDialog("Insira o código da turma: ");
-            if (codTurma != null && codTurma.length() >=2) {
+            if (codTurma == null) {
+                return null; // Trata o caso do botão "Cancelar"
+            }
+            if (codTurma.length() >= 2) {
                 return codTurma;
             } else {
                 JOptionPane.showMessageDialog(null, "Inválido. O código da turma deve conter exatamente 3 caracteres: TX.");
@@ -111,6 +114,9 @@ public class MenuTurmas {
             int opcao = -1;
             do {
                 String strOpcao = JOptionPane.showInputDialog(opcoes);
+                if (strOpcao == null) {
+                    return; // Trata o caso do botão "Cancelar"
+                }
                 try {
                     opcao = Integer.parseInt(strOpcao);
                 } catch (NumberFormatException n) {
@@ -147,6 +153,9 @@ public class MenuTurmas {
                         break;
                     case 2:
                         String codigoTurma = lerCodigoTurma();
+                        if (codigoTurma == null) {
+                            break; // Sai do loop se o usuário cancelar
+                        }
                         Turma excluir = cadTurma.procurarTurma(codigoTurma);
                         if (excluir != null) {
                             boolean apagou = cadTurma.excluirTurma(excluir);
@@ -164,6 +173,9 @@ public class MenuTurmas {
                         break;
                     case 4:
                         String codTur = lerCodigoTurma();
+                        if (codTur == null) {
+                            break; // Sai do loop se o usuário cancelar
+                        }
                         Turma turmaProcura = cadTurma.procurarTurma(codTur);
                         if (turmaProcura != null) {
                             JOptionPane.showMessageDialog(null, turmaProcura.toString());
