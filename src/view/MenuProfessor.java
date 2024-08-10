@@ -150,6 +150,9 @@ public class MenuProfessor {
                     listarTodosProfessores(cadProfessor);
                     break;
 
+                case 0:
+                    return;
+
                 default:
                     JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
                     break;
