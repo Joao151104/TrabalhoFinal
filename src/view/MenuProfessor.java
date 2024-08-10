@@ -38,10 +38,10 @@ public class MenuProfessor {
                 String matriculaFUB = matriculaField.getText();
                 String areaFormacao = areaFormacaoField.getText();
 
-                boolean nomeValido = nome.matches("[a-zA-Z ]+") && nome.replace(" ", "").length() >= 4;
+                boolean nomeValido = nome.matches("[\\p{L} .'-]{4,}") && nome.replace(" ", "").length() >= 4;
                 boolean cpfValido = cpf.matches("\\d{11}");
                 boolean matriculaValida = matriculaFUB.matches("\\d{9}");
-                boolean areaFormacaoValida = areaFormacao.matches("[a-zA-Z ]+") && areaFormacao.replace(" ", "").length() >= 4;
+                boolean areaFormacaoValida = areaFormacao.matches("[\\p{L} .'-]{4,}") && areaFormacao.replace(" ", "").length() >= 4;
                 
                 if (nomeValido && cpfValido && matriculaValida && areaFormacaoValida) {
                     return new Professor(nome, cpf, email, areaFormacao, matriculaFUB);

@@ -38,19 +38,19 @@ public class MenuAluno {
                 String matricula = matriculaField.getText();
                 String curso = cursoField.getText();
 
-                boolean nomeValido = nome.matches("[a-zA-Z ]+") && nome.replace(" ", "").length() >= 4;
+                boolean nomeValido = nome.matches("[\\p{L} .'-]{4,}"); // Aceita letras, acentos e alguns caracteres especiais
                 boolean cpfValido = cpf.matches("\\d{11}");
                 boolean matriculaValida = matricula.matches("\\d{9}");
-                boolean cursoValido = curso.matches("[a-zA-Z ]+") && curso.replace(" ", "").length() >= 4;
+                boolean cursoValido = curso.matches("[\\p{L} .'-]{4,}"); // Aceita letras, acentos e alguns caracteres especiais
                 
                 if (nomeValido && cpfValido && matriculaValida && cursoValido) {
                     return new Aluno(nome, cpf, email, matricula, curso);
                 } else {
                     StringBuilder mensagemErro = new StringBuilder("Dados inválidos:\n");
-                    if (!nomeValido) mensagemErro.append(" - Nome deve conter apenas letras e ter no mínimo 4 letras.\n");
+                    if (!nomeValido) mensagemErro.append(" - Nome deve conter pelo menos 4 caracteres e pode incluir letras acentuadas e caracteres especiais como espaço, ponto, apóstrofo e hífen.\n");
                     if (!cpfValido) mensagemErro.append(" - CPF deve conter 11 dígitos.\n");
                     if (!matriculaValida) mensagemErro.append(" - Matrícula deve conter 9 dígitos.\n");
-                    if(!cursoValido) mensagemErro.append(" - Curso Invalido\n"); 
+                    if (!cursoValido) mensagemErro.append(" - Curso deve conter pelo menos 4 caracteres e pode incluir letras acentuadas e caracteres especiais.\n");
                     JOptionPane.showMessageDialog(null, mensagemErro.toString());
                 }
             } else {

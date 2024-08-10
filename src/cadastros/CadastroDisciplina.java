@@ -1,11 +1,9 @@
 package cadastros;
 
 import app.Disciplina;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-
 
 public class CadastroDisciplina {
     private List<Disciplina> disciplinas;
@@ -15,8 +13,8 @@ public class CadastroDisciplina {
     }
 
     public int cadastrarDisciplina(Disciplina d) {
-        for(Disciplina disciplina : disciplinas) {
-            if(disciplina.getCodigoDisciplina().equalsIgnoreCase(d.getCodigoDisciplina())) {
+        for (Disciplina disciplina : disciplinas) {
+            if (disciplina.getCodigoDisciplina().equalsIgnoreCase(d.getCodigoDisciplina())) {
                 return -1;
             }
         }
@@ -38,16 +36,16 @@ public class CadastroDisciplina {
         return disciplinas.remove(d);
     }
 
-    public boolean atualizarDisciplina(String codigoDisciplina, Disciplina d){
+    public boolean atualizarDisciplina(String codigoDisciplina, Disciplina d) {
         Disciplina remover = pesquisarDisciplina(codigoDisciplina);
-        if(remover != null){
+        if (remover != null) {
             disciplinas.remove(remover);
             return disciplinas.add(d);
         }
         return false;
     }
 
-    public List<Disciplina> listarTodasDisciplinas(){
+    public List<Disciplina> listarTodasDisciplinas() {
         return new ArrayList<>(disciplinas);
     }
 }
