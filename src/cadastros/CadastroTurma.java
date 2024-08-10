@@ -49,8 +49,8 @@ public class CadastroTurma {
         return null; // Turma não encontrada
     }
 
-    public boolean excluirTurma(Turma t) {
-        return turmas.remove(t);
+    public boolean excluirTurma(Turma excluir) {
+        return turmas.remove(excluir);
     }
 
     public List<Turma> getTurmas() {
