@@ -16,31 +16,26 @@ public class CadastroTurma {
     }
 
     public int cadastrarTurma(Turma t) {
-        // Verifica se já existe uma turma com o mesmo código
         for (Turma teste : turmas) {
             if (teste.getCodigoTurma().equalsIgnoreCase(t.getCodigoTurma())) {
                 return -3; // Já existe turma com este código
             }
         }
 
-        // Verifica se a disciplina associada existe
         Disciplina disciplinaVerificadora = cadastroDisciplina.pesquisarDisciplina(t.getDisciplina());
         if (disciplinaVerificadora == null) {
             return -4; // A disciplina não existe
         }
 
-        // Verifica se há professores cadastrados no sistema
         if (cadastroProfessor.listarTodosProfessores().isEmpty()) {
             return -5; // Não há professores cadastrados no sistema
         }
 
-        // Verifica se o professor associado existe no sistema
         Professor professorVerificador = cadastroProfessor.pesquisarProfessor(t.getProfessorAssociado());
         if (professorVerificador == null) {
             return -6; // Professor não encontrado com a matrícula fornecida
         }
 
-        // Adiciona a turma se todas as verificações foram bem-sucedidas
         boolean ok = turmas.add(t);
         return ok ? turmas.size() : -7; // Código de erro genérico
     }
@@ -60,5 +55,21 @@ public class CadastroTurma {
 
     public List<Turma> getTurmas() {
         return new ArrayList<>(turmas);
+    }
+
+    public int adicionarAlunoATurma(String codigoTurma, Aluno aluno) {
+        Turma turma = procurarTurma(codigoTurma);
+        if (turma == null) {
+            return -1; // Turma não encontrada
+        }
+        return turma.adicionarAluno(aluno) ? 1 : -2; // -2 indica que não foi possível adicionar o aluno (turma cheia)
+    }
+
+    public int removerAlunoDaTurma(String codigoTurma, Aluno aluno) {
+        Turma turma = procurarTurma(codigoTurma);
+        if (turma == null) {
+            return -1; // Turma não encontrada
+        }
+        return turma.removeAluno(aluno) ? 1 : -2; // -2 indica que o aluno não estava na turma
     }
 }

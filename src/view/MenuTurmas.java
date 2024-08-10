@@ -1,7 +1,9 @@
 package view;
 
+import app.Aluno;
 import app.Turma;
-import cadastros.CadastroTurma;
+import cadastros.CadastroAluno;
+import cadastros.CadastroTurma; // Supondo que você tenha uma classe Aluno
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -40,12 +42,12 @@ public class MenuTurmas {
                 boolean codTurmaValido = codTurma.matches("^[Tt][A-Za-z0-9]{2}$");
                 boolean salaValida = sala.length() >= 2;
                 boolean matriculaFUBValida = matriculaFUB.replace(".", "").replace("-", "").replace(" ", "").length() <= 10;
-                boolean codDisciplinaValido = codDisciplina.replace(" ", "").replace(".", "").replace("-", "").length() == 7;
+                boolean codDisciplinaValido = codDisciplina.length() == 7; // Considerando apenas o comprimento para simplicidade
                 boolean qtdMaxAlunosValida = false;
 
                 try {
                     int qtdMaxAlunos = Integer.parseInt(recebeQtdMaxAlunos);
-                    qtdMaxAlunosValida = qtdMaxAlunos <= 120;
+                    qtdMaxAlunosValida = qtdMaxAlunos > 0 && qtdMaxAlunos <= 120;
                 } catch (NumberFormatException e) {
                     qtdMaxAlunosValida = false;
                 }
@@ -56,17 +58,13 @@ public class MenuTurmas {
                 } else {
                     StringBuilder msgDeErro = new StringBuilder("Dados inválidos:\n");
                     if (!codTurmaValido) msgDeErro.append(" - O código da turma deve estar no formato TXX, onde X é um caractere alfanumérico.\n");
-                    if (!salaValida) msgDeErro.append(" - A sala deve conter exatamente 3 caracteres: SXX ou IXX.\n");
-                    if (!codDisciplinaValido) msgDeErro.append(" - O código da disciplina deve conter exatamente 3 letras e 4 dígitos. Exemplo: FGA0158.\n");
-                    if (!qtdMaxAlunosValida) msgDeErro.append(" - A quantidade máxima de alunos por turma é 120. Neste campo só vão dígitos.\n");
+                    if (!salaValida) msgDeErro.append(" - A sala deve conter pelo menos 2 caracteres.\n");
+                    if (!matriculaFUBValida) msgDeErro.append(" - A matrícula do professor deve conter no máximo 10 caracteres, excluindo espaços, pontos e hífens.\n");
+                    if (!codDisciplinaValido) msgDeErro.append(" - O código da disciplina deve conter exatamente 7 caracteres.\n");
+                    if (!qtdMaxAlunosValida) msgDeErro.append(" - A quantidade máxima de alunos deve ser um número entre 1 e 120.\n");
                     JOptionPane.showMessageDialog(null, msgDeErro.toString());
 
                     // Retorna com os campos preenchidos
-                    codTurmaField.setText(codTurma);
-                    salaField.setText(sala);
-                    matriculaFUBField.setText(matriculaFUB);
-                    codigoDiscField.setText(codDisciplina);
-                    qtdMaxAlunosField.setText(recebeQtdMaxAlunos);
                     continue;  // Retorna ao loop para reexibir a tela com os inputs preenchidos
                 }
             } else {
@@ -98,11 +96,82 @@ public class MenuTurmas {
             for (Turma turma : turmas) {
                 listaTurmas.append(turma.toString()).append('\n');
             }
-            JOptionPane.showMessageDialog(null, listaTurmas.toString(), "Lista de turmas.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, listaTurmas.toString(), "Lista de turmas", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    public static void menuTurma(CadastroTurma cadTurma) {
+    private static void adicionarOuRemoverAlunos(CadastroTurma cadTurma, CadastroAluno cadAluno) {
+        String codTurma = lerCodigoTurma();
+        if (codTurma == null) {
+            return; // Sai se o usuário cancelar
+        }
+        Turma turma = cadTurma.procurarTurma(codTurma);
+        if (turma == null) {
+            JOptionPane.showMessageDialog(null, "Turma não encontrada.");
+            return;
+        }
+
+        String opcoes = "Informe a opção desejada:\n"
+                + "1 - Adicionar aluno\n"
+                + "2 - Remover aluno\n"
+                + "0 - Voltar";
+        int opcao = -1;
+        do {
+            String strOpcao = JOptionPane.showInputDialog(opcoes);
+            if (strOpcao == null) {
+                return; // Trata o caso do botão "Cancelar"
+            }
+            try {
+                opcao = Integer.parseInt(strOpcao);
+            } catch (NumberFormatException n) {
+                JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um dígito válido.");
+                continue;
+            }
+
+            switch (opcao) {
+                case 1:
+                    String matriculaAlunoAdd = JOptionPane.showInputDialog("Digite a matrícula do aluno para adicionar:");
+                    if (matriculaAlunoAdd == null) {
+                        return; // Sai se o usuário cancelar
+                    }
+                    Aluno alunoAdd = cadAluno.pesquisarAluno(matriculaAlunoAdd); 
+                    if (alunoAdd != null) {
+                        boolean sucessoAdd = turma.adicionarAluno(alunoAdd);
+                        if (sucessoAdd) {
+                            JOptionPane.showMessageDialog(null, "Aluno adicionado com sucesso.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Não foi possível adicionar o aluno. Verifique se a turma atingiu o limite máximo de alunos.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Aluno não encontrado.");
+                    }
+                    break;
+                case 2:
+                    String matriculaAlunoRem = JOptionPane.showInputDialog("Digite a matrícula do aluno para remover:");
+                    if (matriculaAlunoRem == null) {
+                        return; // Sai se o usuário cancelar
+                    }
+                    Aluno alunoRem = cadAluno.pesquisarAluno(matriculaAlunoRem); 
+                    if (alunoRem != null) {
+                        boolean sucessoRem = turma.removeAluno(alunoRem);
+                        if (sucessoRem) {
+                            JOptionPane.showMessageDialog(null, "Aluno removido com sucesso.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Não foi possível remover o aluno. Verifique se o aluno está na turma.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Aluno não encontrado.");
+                    }
+                    break;
+                case 0:
+                    return;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida. Por favor, insira um dígito válido.");
+            }
+        } while (opcao < 0 || opcao > 2);
+    }
+
+    public static void menuTurma(CadastroTurma cadTurma, CadastroAluno cadAluno) {
         while (true) {
             String opcoes = "Informe a opção desejada:\n"
                     + "1 - Adicionar turma\n"
@@ -169,7 +238,7 @@ public class MenuTurmas {
                         }
                         break;
                     case 3:
-                        JOptionPane.showMessageDialog(null, "Essa funcionalidade ainda não está implementada.");
+                        adicionarOuRemoverAlunos(cadTurma, cadAluno);
                         break;
                     case 4:
                         String codTur = lerCodigoTurma();

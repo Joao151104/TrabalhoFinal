@@ -1,6 +1,6 @@
 import cadastros.*;
-import view.*;
 import javax.swing.JOptionPane;
+import view.*;
 
 public class Principal {
 
@@ -30,7 +30,7 @@ public class Principal {
 					MenuDisciplina.menuDisciplina(cadDisciplina);
 				break;
 				case 4: 
-					MenuTurmas.menuTurma(cadTurma);
+					MenuTurmas.menuTurma(cadTurma, cadAluno);
 				break;
 				case 0: 
 				break;

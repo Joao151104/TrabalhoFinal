@@ -1,27 +1,23 @@
 package app;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import app.Aluno;
-import app.Professor;
-import app.Disciplina;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Turma {
-    private String codigoTurma, sala;
-    private String professor;
-    private String materia;
+    private String codigoTurma;
+    private String sala;
+    private String professorAssociado;
+    private String disciplina;
     private int qtdMaxAlunos;
-    private List <Aluno> alunoAssociado;
-    private Aluno aluno;
+    private Set<Aluno> alunos; // Usando HashSet para evitar duplicidade e garantir melhor performance
 
-    public Turma(String cT, String s, String matriculaFUB, String codDisc, int qtdMA) {
-        codigoTurma = cT;
-        sala = s;
-        professor = matriculaFUB;
-        materia = codDisc;
-        qtdMaxAlunos = qtdMA;
-        alunoAssociado = new ArrayList<>();
+    public Turma(String codigoTurma, String sala, String professorAssociado, String disciplina, int qtdMaxAlunos) {
+        this.codigoTurma = codigoTurma;
+        this.sala = sala;
+        this.professorAssociado = professorAssociado;
+        this.disciplina = disciplina;
+        this.qtdMaxAlunos = qtdMaxAlunos;
+        this.alunos = new HashSet<>();
     }
 
     public String getCodigoTurma() {
@@ -33,41 +29,39 @@ public class Turma {
     }
 
     public String getProfessorAssociado() {
-        return professor;
+        return professorAssociado;
     }
 
     public String getDisciplina() {
-        return materia;
+        return disciplina;
     }
 
     public int getQtdMaxAlunos() {
         return qtdMaxAlunos;
     }
 
-    public int adicionaAluno() { //implementar sistema para evitar duplicatas
-        if(alunoAssociado.size() < qtdMaxAlunos) {
-            alunoAssociado.add(aluno);
-            return 99; //msg sucesso "Aluno adicionado"
-        } else {
-            return -1; //msg de erro "Nao foi possivel adicionar aluno"
+    public Set<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public boolean adicionarAluno(Aluno aluno) {
+        if (alunos.size() < qtdMaxAlunos) {
+            return alunos.add(aluno); // Adiciona o aluno se não estiver no conjunto e a turma não estiver cheia
         }
+        return false;
     }
 
-    /* public int removeAluno() {
-        ...
-    } */
-
-    public List<Aluno> getAlunoAssociado() {
-        return alunoAssociado;
+    public boolean removeAluno(Aluno aluno) {
+        return alunos.remove(aluno); // Remove o aluno se estiver no conjunto
     }
-    
-    @Override //por causa dos "toString" de professor, aluno e disciplina
+
+    @Override
     public String toString() {
-        return  "Código da turma: " + getCodigoTurma() + '\n' +
-                "Sala: " + getSala() + '\n' +
-                "Código da disciplina: " + getDisciplina() + '\n' +
-                "Matrícula FUB do professor: " + getProfessorAssociado() + '\n' +
-                "Quantidade máxima de alunos: " + getQtdMaxAlunos() + '\n' +
-                "Alunos: " + getAlunoAssociado().toString() + '\n';
+        return "Turma: " + codigoTurma + 
+        "\nSala: " + sala + 
+        "\nProfessor: " + professorAssociado +
+        "\nDisciplina: " + disciplina + 
+        "\nMáximo de Alunos: " + qtdMaxAlunos +
+        "\nAlunos: " + alunos;
     }
 }
