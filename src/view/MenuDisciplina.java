@@ -16,7 +16,7 @@ public class MenuDisciplina {
         JTextField codigoDisciplinaField = new JTextField(7);
 
         while (true) {
-            JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+            JPanel panel = new JPanel(new GridLayout(2, 0, 10, 10));
             
             panel.add(new JLabel("Nome da Disciplina:"));
             panel.add(nomeDisciplinaField);
