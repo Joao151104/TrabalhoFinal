@@ -36,7 +36,6 @@ public class CadastroAluno {
                 return a;
             }
         }
-        JOptionPane.showMessageDialog(null, "Aluno não cadastrado.");
         return null;
     }
 
