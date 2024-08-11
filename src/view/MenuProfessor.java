@@ -72,7 +72,7 @@ public class MenuProfessor {
         }
     }
 
-    public static void menuProfessor(CadastroProfessor cadProfessor) {
+    public static void MenuProfessor(CadastroProfessor cadProfessor) {
         String txt = "Informe a opção desejada \n"
                 + "1 - Cadastrar professor\n"
                 + "2 - Pesquisar professor\n"

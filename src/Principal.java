@@ -21,16 +21,16 @@ public class Principal {
 			opcao = MenuPrincipal.menuOpcoes(); 
 			switch (opcao) {
 				case 1: 
-					MenuAluno.menuAluno(cadAluno); 
+					MenuAluno.MenuAluno(cadAluno);
 				break;
 				case 2: 
-					MenuProfessor.menuProfessor(cadProfessor);
+					MenuProfessor.MenuProfessor(cadProfessor);
 				break;
 				case 3: 
-					MenuDisciplina.menuDisciplina(cadDisciplina);
+					MenuDisciplina.MenuDisciplina(cadDisciplina);
 				break;
 				case 4: 
-					MenuTurmas.menuTurma(cadTurma, cadAluno, cadProfessor);
+					MenuTurmas.MenuTurma(cadTurma, cadAluno, cadProfessor);
 				break;
 				case 0: 
 				break;

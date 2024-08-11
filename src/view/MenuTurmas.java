@@ -215,7 +215,7 @@ public class MenuTurmas {
         } while (opcao < 0 || opcao > 2);
     }
 
-    public static void menuTurma(CadastroTurma cadTurma, CadastroAluno cadAluno, CadastroProfessor cadProfessor) {
+    public static void MenuTurma(CadastroTurma cadTurma, CadastroAluno cadAluno, CadastroProfessor cadProfessor) {
         while (true) {
             String opcoes = """
                             Informe a op\u00e7\u00e3o desejada:

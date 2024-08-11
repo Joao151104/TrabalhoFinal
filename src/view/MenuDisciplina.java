@@ -56,7 +56,7 @@ public class MenuDisciplina {
         }
     }
 
-    public static void menuDisciplina(CadastroDisciplina cadDisciplina) {
+    public static void MenuDisciplina(CadastroDisciplina cadDisciplina) {
         String txt = "Informe a opção desejada \n"
                 + "1 - Cadastrar disciplina\n"
                 + "2 - Pesquisar disciplina\n"
